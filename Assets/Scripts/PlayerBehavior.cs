@@ -6,7 +6,7 @@ public class PlayerBehavior : MonoBehaviour
 {
 
     public Rigidbody2D rb2d;
-    public float jumpforce = 10;
+    public float jumpforce = 8;
     void Start()
     {
 
