@@ -6,7 +6,7 @@ public class PlayerBehavior : MonoBehaviour
 {
 
     public Rigidbody2D rb2d;
-    public float jumpforce = 8;
+    public float jumpforce = 7;
     void Start()
     {
 
@@ -32,12 +32,6 @@ public class PlayerBehavior : MonoBehaviour
 
         }
 
-        //if (Input.GetKeyDown(KeyCode.DownArrow)) 
-        {
-
-
-
-        }
 
        // if (Input.GetKeyDown(KeyCode.Space))
         {

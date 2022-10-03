@@ -8,12 +8,6 @@ public class GameController : MonoBehaviour
     void Start()
     {
 
-        //if (Input.GetKeyDown(KeyCode.Space))
-        {
-
-
-
-        }
 
     }
 
@@ -21,5 +15,7 @@ public class GameController : MonoBehaviour
     void Update()
     {
         
+        
+
     }
 }
