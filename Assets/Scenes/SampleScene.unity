@@ -328,7 +328,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb2d: {fileID: 0}
-  jumpforce: 6.5
+  jumpforce: 7
 --- !u!61 &218618268
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -366,6 +366,7 @@ GameObject:
   - component: {fileID: 232886211}
   - component: {fileID: 232886210}
   - component: {fileID: 232886212}
+  - component: {fileID: 232886213}
   m_Layer: 0
   m_Name: Tier2
   m_TagString: Untagged
@@ -433,6 +434,19 @@ PlatformEffector2D:
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
+--- !u!114 &232886213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 232886209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ccf699aadc67754f90bcb81386d6f7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  platformEffect: {fileID: 232886212}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -710,6 +724,7 @@ GameObject:
   - component: {fileID: 1368694376}
   - component: {fileID: 1368694375}
   - component: {fileID: 1368694377}
+  - component: {fileID: 1368694378}
   m_Layer: 0
   m_Name: Tier3
   m_TagString: Untagged
@@ -777,6 +792,19 @@ PlatformEffector2D:
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
+--- !u!114 &1368694378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1368694374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ccf699aadc67754f90bcb81386d6f7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  platformEffect: {fileID: 1368694377}
 --- !u!1 &1770574681
 GameObject:
   m_ObjectHideFlags: 0

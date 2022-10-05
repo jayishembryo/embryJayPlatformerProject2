@@ -25,7 +25,7 @@ public class PlayerBehavior : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.UpArrow)) 
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
 
             rb2d.AddForce(Vector2.up * jumpforce, ForceMode2D.Impulse);
@@ -33,12 +33,30 @@ public class PlayerBehavior : MonoBehaviour
         }
 
 
-       // if (Input.GetKeyDown(KeyCode.Space))
+        // if (Input.GetKeyDown(KeyCode.Space))
         {
 
 
 
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+
+       // if (collision.gameObject.tag == "Platform") 
+        {
+
+           // if (Input.GetKeyUp(KeyCode.DownArrow))
+
+            {
+
+                
+
+            }
+
+        }
 
     }
+
 }
