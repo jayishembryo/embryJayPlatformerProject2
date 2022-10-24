@@ -17,18 +17,28 @@ public class RepeatingBackground : MonoBehaviour
     void Update()
     {
 
+
         Vector2 pos = transform.position;
 
         pos.x -= scrollSpeed * Time.deltaTime;
 
         transform.position = pos;
 
-    //  if (transform.position.x < -ScrollWidth)
+      if (transform.position.x < -ScrollWidth)
         {
 
+            Offscreen(ref pos);
 
         }
 
+        transform.position = pos;
+
+    }
+
+    public virtual void Offscreen(ref Vector2 pos)
+    {
+
+        pos.x += 2 * ScrollWidth;
 
     }
 
