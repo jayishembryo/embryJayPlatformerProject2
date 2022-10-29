@@ -5,7 +5,7 @@ using UnityEngine;
 public class RepeatingBackground : MonoBehaviour
 {
     public float scrollSpeed = 6;
-    public const float ScrollWidth = 6;
+    public const float ScrollWidth = 5;
     void Start()
     {
 

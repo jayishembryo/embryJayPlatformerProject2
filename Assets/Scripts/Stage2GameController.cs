@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.SceneManagement;
 
-public class GameController : MonoBehaviour
+public class Stage2GameController : MonoBehaviour
 {
 
     public GameObject endScreen;
@@ -17,34 +17,27 @@ public class GameController : MonoBehaviour
     public float timer = 0.0f;
     public bool timerStart;
     public bool spawnTime;
-    public GameObject enemy;
     public int randomS;
-    public PlayerBehavior PlayerBehaviorInstance;
-
-
-
-
+    public SuperGameController Instance;
+    public SecondPlayerController SecondPlayerControllerInstance;
     void Start()
     {
-
         ScoreText.text = SuperGameController.Score.ToString();
         TempTxt.text = SuperGameController.Lives.ToString();
-        timerStart = true;
         spawnTime = true;
         InvokeRepeating("IncreaseScore", 2, 2);
+        InvokeRepeating("AddToTimer", 1, 1);
 
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
 
-        
+
         if (spawnTime)
         {
             currentTimer -= Time.deltaTime;
-            if (currentTimer < 0) 
+            if (currentTimer < 0)
             {
 
                 RandomSpawn();
@@ -53,7 +46,6 @@ public class GameController : MonoBehaviour
             }
 
         }
-
 
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -77,17 +69,12 @@ public class GameController : MonoBehaviour
     {
 
 
-        randomS = Random.Range(1, 4);
+        randomS = Random.Range(1, 3);
 
         if (randomS == 1)
         {
 
-            if (PlayerBehaviorInstance.RamRoutine == null)
-            {
-
-                ObstacleSpawn();
-
-            }
+            ObstacleSpawn();
 
         }
 
@@ -98,13 +85,8 @@ public class GameController : MonoBehaviour
 
         }
 
-        if (randomS == 3)
-        {
-
-            EnemySpawn();
-
-        }
     }
+
     void ObstacleSpawn()
     {
         Debug.Log("spawn Obstacle");
@@ -149,7 +131,7 @@ public class GameController : MonoBehaviour
 
         if (randomY == 1)
         {
- 
+
             obsPos.y = 4;
 
         }
@@ -171,39 +153,6 @@ public class GameController : MonoBehaviour
         Instantiate(collectable, obsPos, Quaternion.identity); ;
 
     }
-
-    void EnemySpawn()
-    {
-
-        Vector3 obsPos = new Vector3();
-        obsPos.x = RepeatingBackground.ScrollWidth;
-        randomY = Random.Range(1, 4);
-
-        if (randomY == 1)
-        {
-
-            obsPos.y = 4;
-
-        }
-
-        if (randomY == 2)
-        {
-
-            obsPos.y = 2;
-
-        }
-
-        if (randomY == 3)
-        {
-
-            obsPos.y = 0.1f;
-
-        }
-
-        Instantiate(enemy, obsPos, Quaternion.identity);
-    }
-
-
 
     public void GetHit()
     {
@@ -236,14 +185,6 @@ public class GameController : MonoBehaviour
 
     }
 
-    public void EnemyScore()
-    {
-        
-        SuperGameController.Score = SuperGameController.Score += 20;
-        ScoreText.text = SuperGameController.Score.ToString();
-
-    }
-
     public void GameOver()
     {
 
@@ -254,7 +195,6 @@ public class GameController : MonoBehaviour
 
     public void IncreaseScore()
     {
-
         if (SuperGameController.Lives >= 1)
         {
 
@@ -265,5 +205,24 @@ public class GameController : MonoBehaviour
 
     }
 
+    public void AddToTimer()
+    {
+
+        timer = timer += 1;
+
+        if (timer >= 20)
+        {
+            if (SuperGameController.Lives >= 1)
+           {
+
+                SceneManager.LoadScene(3);
+
+            }
+
+        }
+
+    }
 
 }
+
+    

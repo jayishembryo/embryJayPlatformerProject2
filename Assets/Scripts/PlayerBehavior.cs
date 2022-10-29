@@ -10,6 +10,9 @@ public class PlayerBehavior : MonoBehaviour
     public GameController GameControllerInstance;
     public Coroutine RamRoutine;
     public Coroutine RamRoutineEnd;
+    public AudioClip crash;
+    public AudioClip collect;
+    public AudioClip kill;
     void Start()
     {
 
@@ -87,6 +90,8 @@ public class PlayerBehavior : MonoBehaviour
 
             GameControllerInstance.GetHit();
             Destroy(collision.gameObject);
+            GetComponent<AudioSource>().clip = crash;
+            GetComponent<AudioSource>().Play();
 
         }
 
@@ -95,6 +100,8 @@ public class PlayerBehavior : MonoBehaviour
 
             GameControllerInstance.CollectableScore();
             Destroy(collision.gameObject);
+            GetComponent<AudioSource>().clip = collect;
+            GetComponent<AudioSource>().Play();
 
         }
 
@@ -106,6 +113,8 @@ public class PlayerBehavior : MonoBehaviour
 
                 GameControllerInstance.GetHit();
                 Destroy(collision.gameObject);
+                GetComponent<AudioSource>().clip = crash;
+                GetComponent<AudioSource>().Play();
 
             }
 
@@ -114,6 +123,8 @@ public class PlayerBehavior : MonoBehaviour
 
                 GameControllerInstance.EnemyScore();
                 Destroy(collision.gameObject);
+                GetComponent<AudioSource>().clip = kill;
+                GetComponent<AudioSource>().Play();
 
             }
 
