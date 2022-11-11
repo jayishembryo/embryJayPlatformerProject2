@@ -6,18 +6,18 @@ using UnityEngine.SceneManagement;
 
 public class ProtoGameController : MonoBehaviour
 {
-    public GameObject Instructions;
+    public GameObject instructions;
     public GameObject endScreen;
     public GameObject obstacle;
     public int randomY;
     public float currentTimer;
-    public TMP_Text ScoreText;
-    public TMP_Text TempTxt;
+    public TMP_Text scoreText;
+    public TMP_Text tempTxt;
     public float timer = 0.0f;
     public bool timerStart;
     public bool spawnTime;
-    public SuperGameController Instance;
-    public FirstPlayerBehavior FirstPlayerBehaviorInstance;
+    public SuperGameController instance;
+    public FirstPlayerBehavior firstPlayerBehaviorInstance;
     void Start()
     {
         
@@ -36,7 +36,23 @@ public class ProtoGameController : MonoBehaviour
             if (!timerStart)
             {
 
-                Instructions.SetActive(false);
+                instructions.SetActive(false);
+                timerStart = true;
+                spawnTime = true;
+                InvokeRepeating("IncreaseScore", 2, 2);
+                InvokeRepeating("AddToTimer", 1, 1);
+
+            }
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+
+            if (!timerStart)
+            {
+
+                instructions.SetActive(false);
                 timerStart = true;
                 spawnTime = true;
                 InvokeRepeating("IncreaseScore", 2, 2);
@@ -54,7 +70,7 @@ public class ProtoGameController : MonoBehaviour
             {
 
                 ObstacleSpawn();
-                currentTimer = 0.8f;
+                currentTimer = 1;
 
             }
 
@@ -65,8 +81,8 @@ public class ProtoGameController : MonoBehaviour
         {
 
             SceneManager.LoadScene(0);
-            SuperGameController.Score = 0;
-            SuperGameController.Lives = 3;
+            SuperGameController.score = 0;
+            SuperGameController.lives = 3;
 
         }
 
@@ -86,27 +102,27 @@ public class ProtoGameController : MonoBehaviour
 
         Debug.Log("spawn Obstacle");
         Vector3 obsPos = new Vector3();
-        obsPos.x = RepeatingBackground.ScrollWidth;
+        obsPos.x = RepeatingBackground.scrollWidth;
         randomY = Random.Range(1, 4);
 
         if (randomY == 1)
         {
 
-            obsPos.y = 4;
+            obsPos.y = 4.6f;
 
         }
 
         if (randomY == 2)
         {
 
-            obsPos.y = 2;
+            obsPos.y = 2.68f;
 
         }
 
         if (randomY == 3)
         {
 
-            obsPos.y = 0.1f;
+            obsPos.y = 0.3544002f;
 
         }
 
@@ -116,12 +132,12 @@ public class ProtoGameController : MonoBehaviour
 
     public void GetHit()
     {
-        if (SuperGameController.Lives >= 1)
+        if (SuperGameController.lives >= 1)
         {
 
-            SuperGameController.Lives = SuperGameController.Lives -= 1;
-            TempTxt.text = SuperGameController.Lives.ToString(); //this will be indicated by animations rather than text once sprite work and animations begin
-            if (SuperGameController.Lives <= 0)
+            SuperGameController.lives = SuperGameController.lives -= 1;
+            tempTxt.text = SuperGameController.lives.ToString(); //this will be indicated by animations rather than text once sprite work and animations begin
+            if (SuperGameController.lives <= 0)
             {
 
 
@@ -147,11 +163,11 @@ public class ProtoGameController : MonoBehaviour
     public void IncreaseScore()
     {
 
-        if (SuperGameController.Lives >= 1)
+        if (SuperGameController.lives >= 1)
         {
 
-            SuperGameController.Score += 5;
-            ScoreText.text = SuperGameController.Score.ToString();
+            SuperGameController.score += 5;
+            scoreText.text = SuperGameController.score.ToString();
 
         }
 
@@ -162,9 +178,9 @@ public class ProtoGameController : MonoBehaviour
 
         timer = timer += 1;
 
-        if (timer >= 10)
+        if (timer >= 30)
         {
-            if (SuperGameController.Lives >= 1)
+            if (SuperGameController.lives >= 1)
             {
 
                 SceneManager.LoadScene(2); // transitions can be implimented later on???

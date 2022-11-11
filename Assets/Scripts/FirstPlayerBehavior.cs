@@ -5,8 +5,8 @@ using UnityEngine;
 public class FirstPlayerBehavior : MonoBehaviour
 {
     public Rigidbody2D rb2d;
-    public float jumpforce = 7;
-    public ProtoGameController ProtoGameControllerInstance;
+    public float jumpforce = 40;
+    public ProtoGameController protoGameControllerInstance;
     public AudioClip crash;
     public AudioSource sound;
 
@@ -30,6 +30,14 @@ public class FirstPlayerBehavior : MonoBehaviour
 
         }
 
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+
+            rb2d.AddForce(Vector2.up * jumpforce, ForceMode2D.Impulse);
+
+        }
+
+
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -38,10 +46,15 @@ public class FirstPlayerBehavior : MonoBehaviour
         if (collision.gameObject.tag == "Obstacle")
         {
 
-            ProtoGameControllerInstance.GetHit();
-            Destroy(collision.gameObject);
-            sound.clip = crash;
-            sound.PlayOneShot(crash);
+            if (SuperGameController.lives >= 1)
+            {
+
+                protoGameControllerInstance.GetHit();
+                Destroy(collision.gameObject);
+                GetComponent<AudioSource>().clip = crash;
+                GetComponent<AudioSource>().Play();
+
+            }
 
         }
     }

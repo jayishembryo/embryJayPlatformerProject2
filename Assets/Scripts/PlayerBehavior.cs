@@ -6,10 +6,10 @@ public class PlayerBehavior : MonoBehaviour
 {
 
     public Rigidbody2D rb2d;
-    public float jumpforce = 7;
-    public GameController GameControllerInstance;
-    public Coroutine RamRoutine;
-    public Coroutine RamRoutineEnd;
+    public float jumpforce = 40;
+    public GameController gameControllerInstance;
+    public Coroutine ramRoutine;
+    public Coroutine ramRoutineEnd;
     public AudioClip crash;
     public AudioClip collect;
     public AudioClip kill;
@@ -31,11 +31,18 @@ public class PlayerBehavior : MonoBehaviour
 
         }
 
-         if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.W))
         {
-            if(RamRoutine == null)
+
+            rb2d.AddForce(Vector2.up * jumpforce, ForceMode2D.Impulse);
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if(ramRoutine == null)
             {
-                RamRoutine = StartCoroutine(RamForward()); 
+                ramRoutine = StartCoroutine(RamForward()); 
             }
            
 
@@ -46,7 +53,7 @@ public class PlayerBehavior : MonoBehaviour
     }
     public IEnumerator RamForward()
     {
-        float finalPosition = transform.position.x + 7;
+        float finalPosition = transform.position.x + 4;
         float goalTime = Time.time + 2;
         float xPos = transform.position.x;
         while (Time.time < goalTime)
@@ -59,14 +66,15 @@ public class PlayerBehavior : MonoBehaviour
 
         }
 
-        RamRoutineEnd = StartCoroutine(FallBack());
+        ramRoutineEnd = StartCoroutine(FallBack());
 
     }
 
     public IEnumerator FallBack()
     {
 
-        float finalPosition = transform.position.x - 7;
+        ramRoutine = null;
+        float finalPosition = transform.position.x - 4;
         float goalTime = Time.time + 1;
         float xPos = transform.position.x;
         while (Time.time < goalTime)
@@ -79,8 +87,6 @@ public class PlayerBehavior : MonoBehaviour
 
         }
 
-        RamRoutine = null;
-
     }
     public void OnTriggerEnter2D(Collider2D collision)
     {
@@ -88,45 +94,62 @@ public class PlayerBehavior : MonoBehaviour
         if (collision.gameObject.tag == "Obstacle")
         {
 
-            GameControllerInstance.GetHit();
-            Destroy(collision.gameObject);
-            GetComponent<AudioSource>().clip = crash;
-            GetComponent<AudioSource>().Play();
-
-        }
-
-        if (collision.gameObject.tag == "Collectable")
-        {
-
-            GameControllerInstance.CollectableScore();
-            Destroy(collision.gameObject);
-            GetComponent<AudioSource>().clip = collect;
-            GetComponent<AudioSource>().Play();
-
-        }
-
-        if (collision.gameObject.tag == "Enemy")
-        {
-
-            if (RamRoutine == null)
+            if (SuperGameController.lives >= 1)
             {
 
-                GameControllerInstance.GetHit();
+                gameControllerInstance.GetHit();
                 Destroy(collision.gameObject);
                 GetComponent<AudioSource>().clip = crash;
                 GetComponent<AudioSource>().Play();
 
             }
 
-            if (RamRoutine != null)
+        }
+
+        if (collision.gameObject.tag == "Collectable")
+        {
+
+            if (SuperGameController.lives >= 1)
             {
 
-                GameControllerInstance.EnemyScore();
+                gameControllerInstance.CollectableScore();
                 Destroy(collision.gameObject);
-                GetComponent<AudioSource>().clip = kill;
+                GetComponent<AudioSource>().clip = collect;
                 GetComponent<AudioSource>().Play();
 
             }
+         
+
+        }
+
+        if (collision.gameObject.tag == "Enemy")
+        {
+
+            if (SuperGameController.lives >= 1)
+            {
+
+                if (ramRoutine == null)
+                {
+
+                    gameControllerInstance.GetHit();
+                    Destroy(collision.gameObject);
+                    GetComponent<AudioSource>().clip = crash;
+                    GetComponent<AudioSource>().Play();
+
+                }
+
+                if (ramRoutine != null)
+                {
+
+                    gameControllerInstance.EnemyScore();
+                    Destroy(collision.gameObject);
+                    GetComponent<AudioSource>().clip = kill;
+                    GetComponent<AudioSource>().Play();
+
+                }
+
+            }
+            
 
         }
 

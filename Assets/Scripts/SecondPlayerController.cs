@@ -5,8 +5,8 @@ using UnityEngine;
 public class SecondPlayerController : MonoBehaviour
 {
     public Rigidbody2D rb2d;
-    public float jumpforce = 7;
-    public Stage2GameController Stage2GameControllerInstance;
+    public float jumpforce = 40;
+    public Stage2GameController stage2GameControllerInstance;
     public AudioClip crash;
     public AudioClip collect;
     void Start()
@@ -27,6 +27,13 @@ public class SecondPlayerController : MonoBehaviour
 
         }
 
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+
+            rb2d.AddForce(Vector2.up * jumpforce, ForceMode2D.Impulse);
+
+        }
+
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -35,20 +42,52 @@ public class SecondPlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Obstacle")
         {
 
-            Stage2GameControllerInstance.GetHit();
-            Destroy(collision.gameObject);
-            GetComponent<AudioSource>().clip = crash;
-            GetComponent<AudioSource>().Play();
+            if (SuperGameController.lives >= 1)
+            {
+
+                stage2GameControllerInstance.GetHit();
+                Destroy(collision.gameObject);
+                GetComponent<AudioSource>().clip = crash;
+                GetComponent<AudioSource>().Play();
+
+            }
 
         }
 
         if (collision.gameObject.tag == "Collectable")
         {
 
-            Stage2GameControllerInstance.CollectableScore();
-            Destroy(collision.gameObject);
-            GetComponent<AudioSource>().clip = collect;
-            GetComponent<AudioSource>().Play();
+            if (SuperGameController.lives >= 1)
+            {
+
+                stage2GameControllerInstance.CollectableScore();
+                Destroy(collision.gameObject);
+                GetComponent<AudioSource>().clip = collect;
+                GetComponent<AudioSource>().Play();
+
+            }
+
+            if (stage2GameControllerInstance.gasText == true)
+            {
+
+                stage2GameControllerInstance.gasInstructions.SetActive(false);
+                stage2GameControllerInstance.gasText = false;
+
+            }
+
+        }
+
+        if (collision.gameObject.tag == "Upgrade")
+        {
+
+            if (SuperGameController.lives >= 1)
+            {
+
+                Destroy(collision.gameObject);
+                stage2GameControllerInstance.NextScene();
+
+            }
+           
 
         }
     }

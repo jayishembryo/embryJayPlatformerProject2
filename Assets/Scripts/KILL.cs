@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class KILL : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public Stage2GameController stage2GameControllerInstance;
     void Start()
     {
         
@@ -37,6 +37,14 @@ public class KILL : MonoBehaviour
         {
 
             Destroy(collision.gameObject);
+
+        }
+
+        if (collision.gameObject.tag == "Upgrade")
+        {
+
+            Destroy(collision.gameObject);
+            stage2GameControllerInstance.wrenchOnscreen = false;
 
         }
 

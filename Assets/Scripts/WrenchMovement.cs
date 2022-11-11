@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CollectableBehavior : MonoBehaviour
+public class WrenchMovement : MonoBehaviour
 {
-    public int scrollSpeed = 7;
+    public int scrollSpeed = 5;
     public Rigidbody2D rb2d;
     void Start()
     {
@@ -27,4 +27,3 @@ public class CollectableBehavior : MonoBehaviour
 
 
 }
-

@@ -1257,17 +1257,16 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Press the up arrow to jump!
+  m_text: 'Use the up and down arrow keys to traverse platforms!
 
-    Hold the down arrow to fall through platforms!
+    Avoid the rubble!
 
-    Once
-    the aliens appear, press the spacebar to ram into them!
+    Collect
+    gas containers!
 
-    Pick up collectables!
+    Ram into enemies!
 
-    And
-    most importantly... Survive!!!'
+    And most importantly... Survive!!!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

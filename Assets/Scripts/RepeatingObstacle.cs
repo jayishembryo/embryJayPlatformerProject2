@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RepeatingObstacle : MonoBehaviour
 {
-    public int scrollSpeed = 8;
+    public int scrollSpeed = 7;
     public Rigidbody2D rb2d;
     void Start()
     {

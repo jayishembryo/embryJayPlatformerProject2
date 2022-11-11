@@ -5,8 +5,8 @@ using UnityEngine;
 public class SuperGameController : MonoBehaviour
 {
     public static SuperGameController Instance;
-    public static int Score;
-    public static int Lives = 3;
+    public static int score;
+    public static int lives = 3;
     void Start()
     {
         
