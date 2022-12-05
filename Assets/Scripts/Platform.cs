@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Platform : MonoBehaviour
 {
-    public PlatformEffector2D platformEffect;
+    public PlatformEffector2D PlatformEffect;
     void Start()
     {
 
-        platformEffect = GetComponent<PlatformEffector2D>();
+        PlatformEffect = GetComponent<PlatformEffector2D>();
 
     }
 
@@ -19,28 +19,28 @@ public class Platform : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
 
-            platformEffect.transform.rotation = Quaternion.Euler(0, 0, 180);
+            PlatformEffect.transform.rotation = Quaternion.Euler(0, 0, 180);
 
         }
 
         if (Input.GetKeyUp(KeyCode.DownArrow))
         {
 
-            platformEffect.transform.rotation = Quaternion.Euler(0, 0, 0);
+            PlatformEffect.transform.rotation = Quaternion.Euler(0, 0, 0);
 
         }
 
         if (Input.GetKeyDown(KeyCode.S))
         {
 
-            platformEffect.transform.rotation = Quaternion.Euler(0, 0, 180);
+            PlatformEffect.transform.rotation = Quaternion.Euler(0, 0, 180);
 
         }
 
         if (Input.GetKeyUp(KeyCode.S))
         {
 
-            platformEffect.transform.rotation = Quaternion.Euler(0, 0, 0);
+            PlatformEffect.transform.rotation = Quaternion.Euler(0, 0, 0);
 
         }
 

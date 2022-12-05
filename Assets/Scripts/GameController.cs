@@ -3,25 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
 
-    public GameObject endScreen;
-    public GameObject obstacle;
-    public GameObject collectable;
-    public GameObject ramInstructions;
-    public int randomY;
-    public float currentTimer;
-    public TMP_Text scoreText;
-    public TMP_Text tempTxt;
-    public float timer = 0.0f;
-    public bool timerStart;
-    public bool spawnTime;
-    public bool ramText = true;
-    public GameObject enemy;
-    public int randomS;
-    public PlayerBehavior playerBehaviorInstance;
+    public GameObject EndScreen;
+    public GameObject GasBar;
+    public GameObject Obstacle;
+    public GameObject Collectable;
+    public GameObject RamInstructions;
+    public GameObject Sweats;
+    public GameObject Scores;
+    public GameObject Honk;
+    public int RandomY;
+    public float CurrentTimer;
+    public TMP_Text ScoreText;
+    public TMP_Text FinalScoreText;
+    public float Timer = 0.0f;
+    public bool TimerStart;
+    public bool SpawnTime;
+    public bool RamText = true;
+    public bool SweatsActive = false;
+    public GameObject Enemy;
+    public int RandomS;
+    public PlayerBehavior PlayerBehaviorInstance;
+    public Image GasTracker;
   
 
 
@@ -30,12 +37,19 @@ public class GameController : MonoBehaviour
     void Start()
     {
 
-        scoreText.text = SuperGameController.score.ToString();
-        tempTxt.text = SuperGameController.lives.ToString();
-        timerStart = true;
-        spawnTime = true;
+        ScoreText.text = SuperGameController.Score.ToString();
+        TimerStart = true;
+        SpawnTime = true;
         InvokeRepeating("IncreaseScore", 2, 2);
-        InvokeRepeating("AddToTimer", 1, 1);
+        InvokeRepeating("LowerGasLevel", 1, 1);
+        GasTracker.fillAmount = Mathf.Clamp01(SuperGameController.NewGas / SuperGameController.GasMax);
+        if (SuperGameController.Lives < 2)
+        {
+
+            Sweats.SetActive(true);
+            SweatsActive = true;
+
+        }
 
     }
 
@@ -45,14 +59,14 @@ public class GameController : MonoBehaviour
 
 
 
-        if (spawnTime)
+        if (SpawnTime)
         {
-            currentTimer -= Time.deltaTime;
-            if (currentTimer < 0)
+            CurrentTimer -= Time.deltaTime;
+            if (CurrentTimer < 0)
             {
 
                 RandomSpawn();
-                currentTimer = 1;
+                CurrentTimer = 1;
 
             }
 
@@ -63,8 +77,8 @@ public class GameController : MonoBehaviour
         {
 
             SceneManager.LoadScene(0);
-            SuperGameController.score = 0;
-            SuperGameController.lives = 3;
+            SuperGameController.Score = 0;
+            SuperGameController.Lives = 3;
 
         }
 
@@ -78,13 +92,27 @@ public class GameController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
 
-            if (ramText == true)
+            if (RamText == true)
             {
 
-                ramInstructions.SetActive(false);
-                ramText = false;
+                RamInstructions.SetActive(false);
+                RamText = false;
 
             }
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+
+            Honk.SetActive(true);
+
+        }
+
+        if (Input.GetKeyUp(KeyCode.X))
+        {
+
+            Honk.SetActive(false);
 
         }
 
@@ -94,23 +122,23 @@ public class GameController : MonoBehaviour
     {
 
 
-        randomS = Random.Range(0, 10);
+        RandomS = Random.Range(0, 10);
 
-        if (randomS == 0 || randomS == 1 || randomS == 2 || randomS == 3 || randomS == 4 || randomS == 5)
+        if (RandomS == 0 || RandomS == 1 || RandomS == 2 || RandomS == 3 || RandomS == 4 || RandomS == 5)
         {
 
             ObstacleSpawn();
 
         }
 
-        if (randomS == 9)
+        if (RandomS == 9)
         {
 
             CollectableSpawn();
 
         }
 
-        if (randomS == 6 || randomS == 7 || randomS == 8)
+        if (RandomS == 6 || RandomS == 7 || RandomS == 8)
         {
 
             EnemySpawn();
@@ -120,33 +148,32 @@ public class GameController : MonoBehaviour
     public void ObstacleSpawn()
     {
 
-        Debug.Log("spawn Obstacle");
         Vector3 obsPos = new Vector3();
-        obsPos.x = RepeatingBackground.scrollWidth;
-        randomY = Random.Range(1, 4);
+        obsPos.x = RepeatingBackground.ScrollWidth;
+        RandomY = Random.Range(1, 4);
 
-        if (randomY == 1)
+        if (RandomY == 1)
         {
 
-            obsPos.y = 4.6f;
+            obsPos.y = 4.14f;
 
         }
 
-        if (randomY == 2)
+        if (RandomY == 2)
         {
 
-            obsPos.y = 2.68f;
+            obsPos.y = 2.07f;
 
         }
 
-        if (randomY == 3)
+        if (RandomY == 3)
         {
 
-            obsPos.y = 0.3544002f;
+            obsPos.y = -0.1316612f;
 
         }
 
-        Instantiate(obstacle, obsPos, Quaternion.identity);
+        Instantiate(Obstacle, obsPos, Quaternion.identity);
 
     }
 
@@ -155,31 +182,31 @@ public class GameController : MonoBehaviour
     {
 
         Vector3 obsPos = new Vector3();
-        obsPos.x = RepeatingBackground.scrollWidth;
-        randomY = Random.Range(1, 4);
+        obsPos.x = RepeatingBackground.ScrollWidth;
+        RandomY = Random.Range(1, 4);
 
-        if (randomY == 1)
+        if (RandomY == 1)
         {
 
-            obsPos.y = 3.98f;
+            obsPos.y = 3.82f;
 
         }
 
-        if (randomY == 2)
+        if (RandomY == 2)
         {
 
-            obsPos.y = 2.12f;
+            obsPos.y = 1.75f;
 
         }
 
-        if (randomY == 3)
+        if (RandomY == 3)
         {
 
-            obsPos.y = -0.1408f;
+            obsPos.y = -0.4358903f;
 
         }
 
-        Instantiate(collectable, obsPos, Quaternion.identity); ;
+        Instantiate(Collectable, obsPos, Quaternion.identity); ;
 
     }
 
@@ -187,50 +214,61 @@ public class GameController : MonoBehaviour
     {
 
         Vector3 obsPos = new Vector3();
-        obsPos.x = RepeatingBackground.scrollWidth;
-        randomY = Random.Range(1, 4);
+        obsPos.x = RepeatingBackground.ScrollWidth;
+        RandomY = Random.Range(1, 4);
 
-        if (randomY == 1)
+        if (RandomY == 1)
         {
 
-            obsPos.y = 4.1f;
+            obsPos.y = 3.92f;
 
         }
 
-        if (randomY == 2)
+        if (RandomY == 2)
         {
 
-            obsPos.y = 2.09f;
+            obsPos.y = 1.8f;
 
         }
 
-        if (randomY == 3)
+        if (RandomY == 3)
         {
 
-            obsPos.y = -0.07051057f;
+            obsPos.y = -0.3661088f;
 
         }
 
-        Instantiate(enemy, obsPos, Quaternion.identity);
+        Instantiate(Enemy, obsPos, Quaternion.identity);
     }
 
 
 
     public void GetHit()
     {
-        if (SuperGameController.lives >= 1)
+        if (SuperGameController.Lives >= 1)
         {
 
-            SuperGameController.lives = SuperGameController.lives -= 1;
-            tempTxt.text = SuperGameController.lives.ToString(); //this will be indicated by animations rather than text once sprite work and animations begin
-            if (SuperGameController.lives <= 0)
+            SuperGameController.Lives = SuperGameController.Lives -= 1;
+            if (SuperGameController.Lives <= 0)
             {
 
 
-                timerStart = false;
-                spawnTime = false;
-                timer = 0.0f;
+                TimerStart = false;
+                SpawnTime = false;
+                Timer = 0.0f;
                 GameOver();
+
+            }
+
+        }
+
+        if (SuperGameController.Lives < 2)
+        {
+
+            if (SweatsActive == false)
+            {
+
+                Sweats.SetActive(true);
 
             }
 
@@ -242,29 +280,35 @@ public class GameController : MonoBehaviour
     public void CollectableScore()
     {
 
-        SuperGameController.score = SuperGameController.score += 10;
-        scoreText.text = SuperGameController.score.ToString();
+        SuperGameController.Score = SuperGameController.Score += 10;
+        ScoreText.text = SuperGameController.Score.ToString();
+        SuperGameController.FinalScore += 10;
+        FinalScoreText.text = SuperGameController.Score.ToString();
 
     }
 
     public void EnemyScore()
     {
 
-        SuperGameController.score = SuperGameController.score += 20;
-        scoreText.text = SuperGameController.score.ToString();
+        SuperGameController.Score = SuperGameController.Score += 20;
+        ScoreText.text = SuperGameController.Score.ToString();
+        SuperGameController.FinalScore += 20;
+        FinalScoreText.text = SuperGameController.Score.ToString();
 
     }
 
     public void GameOver()
     {
 
-        endScreen.SetActive(true);
+        EndScreen.SetActive(true);
+        Scores.SetActive(false);
+        GasBar.SetActive(false);
 
-        if (ramText == true)
+        if (RamText == true)
         {
 
-            ramInstructions.SetActive(false);
-            ramText = false;
+            RamInstructions.SetActive(false);
+            RamText = false;
 
         }
 
@@ -274,13 +318,46 @@ public class GameController : MonoBehaviour
     public void IncreaseScore()
     {
 
-        if (SuperGameController.lives >= 1)
+        if (SuperGameController.Lives >= 1)
         {
 
-            SuperGameController.score += 5;
-            scoreText.text = SuperGameController.score.ToString();
+            SuperGameController.Score += 5;
+            ScoreText.text = SuperGameController.Score.ToString();
+            SuperGameController.FinalScore += 5;
+            FinalScoreText.text = SuperGameController.Score.ToString();
 
         }
+
+    }
+
+    public void LowerGasLevel()
+    {
+
+        if (SuperGameController.Lives >= 1)
+        {
+
+            GasTracker.fillAmount = Mathf.Clamp01(SuperGameController.NewGas / SuperGameController.GasMax);
+            SuperGameController.NewGas -= 1;
+
+            if (SuperGameController.NewGas == 0)
+            {
+
+                TimerStart = false;
+                SpawnTime = false;
+                Timer = 0.0f;
+                GameOver();
+
+            }
+
+        }
+
+    }
+
+    public void RestoreGas()
+    {
+
+        GasTracker.fillAmount = Mathf.Clamp01(SuperGameController.NewGas / SuperGameController.GasMax);
+        SuperGameController.NewGas = 100;
 
     }
 }

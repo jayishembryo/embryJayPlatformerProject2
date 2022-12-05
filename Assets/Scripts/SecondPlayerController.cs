@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class SecondPlayerController : MonoBehaviour
 {
-    public Rigidbody2D rb2d;
-    public float jumpforce = 40;
-    public Stage2GameController stage2GameControllerInstance;
-    public AudioClip crash;
-    public AudioClip collect;
+    public Rigidbody2D Rb2d;
+    public float Jumpforce = 40;
+    public Stage2GameController Stage2GameControllerInstance;
+    public AudioClip Crash;
+    public AudioClip Collect;
+    public AudioClip Honk;
+    public Animator HitOnce;
+    public Animator DriveDamaged;
+    public Animator HitTwice;
+    public Animator DriveDamaged2;
+    public Animator Jumping;
+    public Animator Jumping2;
+    public Animator Jumping3;
+    public Animator Return;
+    public Animator Return2;
+    public Animator Return3;
     void Start()
     {
 
-        rb2d = GetComponent<Rigidbody2D>();
+        Rb2d = GetComponent<Rigidbody2D>();
 
     }
 
@@ -23,14 +34,130 @@ public class SecondPlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
 
-            rb2d.AddForce(Vector2.up * jumpforce, ForceMode2D.Impulse);
+            Rb2d.AddForce(Vector2.up * Jumpforce, ForceMode2D.Impulse);
+
+            if (SuperGameController.Lives == 3)
+            {
+
+                Jumping.SetTrigger("Woohoo");
+
+            }
+
+            if (SuperGameController.Lives == 2)
+            {
+
+                Jumping2.SetTrigger("Woohoo2");
+
+            }
+
+            if (SuperGameController.Lives == 1)
+            {
+
+                Jumping2.SetTrigger("Woohoo3");
+
+            }
 
         }
 
         if (Input.GetKeyDown(KeyCode.W))
         {
 
-            rb2d.AddForce(Vector2.up * jumpforce, ForceMode2D.Impulse);
+            Rb2d.AddForce(Vector2.up * Jumpforce, ForceMode2D.Impulse);
+
+            if (SuperGameController.Lives == 3)
+            {
+
+                Jumping.SetTrigger("Woohoo");
+
+            }
+
+            if (SuperGameController.Lives == 2)
+            {
+
+                Jumping2.SetTrigger("Woohoo2");
+
+            }
+
+            if (SuperGameController.Lives == 1)
+            {
+
+                Jumping2.SetTrigger("Woohoo3");
+
+            }
+
+        }
+
+        if (Input.GetKeyUp(KeyCode.UpArrow))
+        {
+
+            if (SuperGameController.Lives == 3)
+            {
+
+                Return.SetTrigger("NoWoohoo");
+
+            }
+
+            if (SuperGameController.Lives == 2)
+            {
+
+                Return2.SetTrigger("NoWoohoo2");
+
+            }
+
+            if (SuperGameController.Lives == 1)
+            {
+
+                Return3.SetTrigger("NoWoohoo3");
+
+            }
+
+        }
+
+        if (Input.GetKeyUp(KeyCode.W))
+        {
+
+            if (SuperGameController.Lives == 3)
+            {
+
+                Return.SetTrigger("NoWoohoo");
+
+            }
+
+            if (SuperGameController.Lives == 2)
+            {
+
+                Return2.SetTrigger("NoWoohoo2");
+
+            }
+
+            if (SuperGameController.Lives == 1)
+            {
+
+                Return3.SetTrigger("NoWoohoo3");
+
+            }
+
+        }
+
+        if (SuperGameController.Lives == 2)
+        {
+
+            DriveDamaged.SetInteger("Lives2", SuperGameController.Lives);
+
+        }
+
+        if (SuperGameController.Lives == 1)
+        {
+
+            DriveDamaged2.SetInteger("Lives1", SuperGameController.Lives);
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+
+            GetComponent<AudioSource>().clip = Honk;
+            GetComponent<AudioSource>().Play();
 
         }
 
@@ -42,13 +169,27 @@ public class SecondPlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Obstacle")
         {
 
-            if (SuperGameController.lives >= 1)
+            if (SuperGameController.Lives >= 1)
             {
 
-                stage2GameControllerInstance.GetHit();
+                Stage2GameControllerInstance.GetHit();
                 Destroy(collision.gameObject);
-                GetComponent<AudioSource>().clip = crash;
+                GetComponent<AudioSource>().clip = Crash;
                 GetComponent<AudioSource>().Play();
+
+                 if (SuperGameController.Lives == 2)
+                {
+
+                    HitOnce.SetTrigger("IsHit");
+
+                }
+
+                if (SuperGameController.Lives == 1)
+                {
+
+                    HitTwice.SetTrigger("IsHit2");
+
+                }
 
             }
 
@@ -57,21 +198,22 @@ public class SecondPlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Collectable")
         {
 
-            if (SuperGameController.lives >= 1)
+            if (SuperGameController.Lives >= 1)
             {
 
-                stage2GameControllerInstance.CollectableScore();
+                Stage2GameControllerInstance.RestoreGas();
+                Stage2GameControllerInstance.CollectableScore();
                 Destroy(collision.gameObject);
-                GetComponent<AudioSource>().clip = collect;
+                GetComponent<AudioSource>().clip = Collect;
                 GetComponent<AudioSource>().Play();
 
             }
 
-            if (stage2GameControllerInstance.gasText == true)
+            if (Stage2GameControllerInstance.GasText == true)
             {
 
-                stage2GameControllerInstance.gasInstructions.SetActive(false);
-                stage2GameControllerInstance.gasText = false;
+                Stage2GameControllerInstance.GasInstructions.SetActive(false);
+                Stage2GameControllerInstance.GasText = false;
 
             }
 
@@ -80,11 +222,11 @@ public class SecondPlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Upgrade")
         {
 
-            if (SuperGameController.lives >= 1)
+            if (SuperGameController.Lives >= 1)
             {
 
                 Destroy(collision.gameObject);
-                stage2GameControllerInstance.NextScene();
+                Stage2GameControllerInstance.UpgradeAquired();
 
             }
            

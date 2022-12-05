@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class CollectableBehavior : MonoBehaviour
 {
-    public int scrollSpeed = 7;
-    public Rigidbody2D rb2d;
+    public int ScrollSpeed = 7;
+    public Rigidbody2D Rb2d;
     void Start()
     {
 
-        rb2d = GetComponent<Rigidbody2D>();
+        Rb2d = GetComponent<Rigidbody2D>();
 
     }
 
@@ -19,7 +19,7 @@ public class CollectableBehavior : MonoBehaviour
 
         Vector2 pos = transform.position;
 
-        pos.x -= scrollSpeed * Time.deltaTime;
+        pos.x -= ScrollSpeed * Time.deltaTime;
 
         transform.position = pos;
 

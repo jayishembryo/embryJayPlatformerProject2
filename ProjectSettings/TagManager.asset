@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Killbox
   - Upgrade
+  - Alien
   layers:
   - Default
   - TransparentFX
@@ -48,4 +49,7 @@ TagManager:
     locked: 0
   - name: Foreground
     uniqueID: 2943809231
+    locked: 0
+  - name: Layer 2
+    uniqueID: 447400545
     locked: 0

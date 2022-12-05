@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 6611087877314613151}
   - component: {fileID: 5312660809115196204}
   - component: {fileID: 2935283987684253647}
+  - component: {fileID: 8226258130021897184}
   m_Layer: 0
   m_Name: Wrench
   m_TagString: Upgrade
@@ -136,7 +137,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.33, y: 3.18}
+    oldSize: {x: 9.14, y: 4.8}
     newSize: {x: 5.33, y: 3.18}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -238,5 +239,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45b43bac594dd10498c20508c6cd13a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrollSpeed: 7
+  scrollSpeed: 3
   rb2d: {fileID: 0}
+--- !u!95 &8226258130021897184
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4223090012017318541}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 22cecd32c57a013489554830ef9cf6fc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

@@ -5,18 +5,35 @@ using UnityEngine;
 public class PlayerBehavior : MonoBehaviour
 {
 
-    public Rigidbody2D rb2d;
-    public float jumpforce = 40;
-    public GameController gameControllerInstance;
-    public Coroutine ramRoutine;
-    public Coroutine ramRoutineEnd;
-    public AudioClip crash;
-    public AudioClip collect;
-    public AudioClip kill;
+    public Rigidbody2D Rb2d;
+    public float Jumpforce = 40;
+    public GameController GameControllerInstance;
+    public Coroutine RamRoutine;
+    public Coroutine RamRoutineEnd;
+    public AudioClip Crash;
+    public AudioClip Collect;
+    public AudioClip Kill;
+    public AudioClip Honk;
+    public Animator HitOnce;
+    public Animator DriveDamaged;
+    public Animator HitTwice;
+    public Animator DriveDamaged2;
+    public Animator Jumping;
+    public Animator Jumping2;
+    public Animator Jumping3;
+    public Animator Return;
+    public Animator Return2;
+    public Animator Return3;
+    public Animator Dash1;
+    public Animator Dash2;
+    public Animator Dash3;
+    public Animator NoDash1;
+    public Animator NoDash2;
+    public Animator NoDash3;
     void Start()
     {
 
-        rb2d = GetComponent<Rigidbody2D>();
+        Rb2d = GetComponent<Rigidbody2D>();
 
     }
 
@@ -27,28 +44,165 @@ public class PlayerBehavior : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
 
-            rb2d.AddForce(Vector2.up * jumpforce, ForceMode2D.Impulse);
+            Rb2d.AddForce(Vector2.up * Jumpforce, ForceMode2D.Impulse);
+
+            if (SuperGameController.Lives == 3)
+            {
+
+                Jumping.SetTrigger("Woohoo");
+
+            }
+
+            if (SuperGameController.Lives == 2)
+            {
+
+                Jumping2.SetTrigger("Woohoo2");
+
+            }
+
+            if (SuperGameController.Lives == 1)
+            {
+
+                Jumping2.SetTrigger("Woohoo3");
+
+            }
 
         }
 
         if (Input.GetKeyDown(KeyCode.W))
         {
 
-            rb2d.AddForce(Vector2.up * jumpforce, ForceMode2D.Impulse);
+            Rb2d.AddForce(Vector2.up * Jumpforce, ForceMode2D.Impulse);
+
+            if (SuperGameController.Lives == 3)
+            {
+
+                Jumping.SetTrigger("Woohoo");
+
+            }
+
+            if (SuperGameController.Lives == 2)
+            {
+
+                Jumping2.SetTrigger("Woohoo2");
+
+            }
+
+            if (SuperGameController.Lives == 1)
+            {
+
+                Jumping2.SetTrigger("Woohoo3");
+
+            }
 
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if(ramRoutine == null)
+            if(RamRoutine == null)
             {
-                ramRoutine = StartCoroutine(RamForward()); 
+
+                RamRoutine = StartCoroutine(RamForward()); 
+
             }
-           
+
+            if (SuperGameController.Lives == 3)
+            {
+
+                Dash1.SetTrigger("Dash1");
+
+            }
+
+            if (SuperGameController.Lives == 2)
+            {
+
+                Dash2.SetTrigger("Dash2");
+
+            }
+
+            if (SuperGameController.Lives == 1)
+            {
+
+                Dash3.SetTrigger("Dash3");
+
+            }
 
         }
 
 
+        if (Input.GetKeyUp(KeyCode.UpArrow))
+        {
+
+            if (SuperGameController.Lives == 3)
+            {
+
+                Return.SetTrigger("NoWoohoo");
+
+            }
+
+            if (SuperGameController.Lives == 2)
+            {
+
+                Return2.SetTrigger("NoWoohoo2");
+
+            }
+
+            if (SuperGameController.Lives == 1)
+            {
+
+                Return3.SetTrigger("NoWoohoo3");
+
+            }
+
+        }
+
+        if (Input.GetKeyUp(KeyCode.W))
+        {
+
+            if (SuperGameController.Lives == 3)
+            {
+
+                Return.SetTrigger("NoWoohoo");
+
+            }
+
+            if (SuperGameController.Lives == 2)
+            {
+
+                Return2.SetTrigger("NoWoohoo2");
+
+            }
+
+            if (SuperGameController.Lives == 1)
+            {
+
+                Return3.SetTrigger("NoWoohoo3");
+
+            }
+
+        }
+
+        if (SuperGameController.Lives == 2)
+        {
+
+            DriveDamaged.SetInteger("Lives2", SuperGameController.Lives);
+
+        }
+
+        if (SuperGameController.Lives == 1)
+        {
+
+            DriveDamaged2.SetInteger("Lives1", SuperGameController.Lives);
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+
+            GetComponent<AudioSource>().clip = Honk;
+            GetComponent<AudioSource>().Play();
+
+        }
 
     }
     public IEnumerator RamForward()
@@ -66,14 +220,33 @@ public class PlayerBehavior : MonoBehaviour
 
         }
 
-        ramRoutineEnd = StartCoroutine(FallBack());
+        RamRoutineEnd = StartCoroutine(FallBack());
 
     }
 
     public IEnumerator FallBack()
     {
+        if (SuperGameController.Lives == 3)
+        {
 
-        ramRoutine = null;
+            NoDash1.SetTrigger("NoDash1");
+
+        }
+
+        if (SuperGameController.Lives == 2)
+        {
+
+            NoDash2.SetTrigger("NoDash2");
+
+        }
+
+        if (SuperGameController.Lives == 1)
+        {
+
+            NoDash3.SetTrigger("NoDash3");
+
+        }
+        RamRoutine = null;
         float finalPosition = transform.position.x - 4;
         float goalTime = Time.time + 1;
         float xPos = transform.position.x;
@@ -94,13 +267,27 @@ public class PlayerBehavior : MonoBehaviour
         if (collision.gameObject.tag == "Obstacle")
         {
 
-            if (SuperGameController.lives >= 1)
+            if (SuperGameController.Lives >= 1)
             {
 
-                gameControllerInstance.GetHit();
+                GameControllerInstance.GetHit();
                 Destroy(collision.gameObject);
-                GetComponent<AudioSource>().clip = crash;
+                GetComponent<AudioSource>().clip = Crash;
                 GetComponent<AudioSource>().Play();
+
+                if (SuperGameController.Lives == 2)
+                {
+
+                    HitOnce.SetTrigger("IsHit");
+
+                }
+
+                if (SuperGameController.Lives == 1)
+                {
+
+                    HitTwice.SetTrigger("IsHit2");
+
+                }
 
             }
 
@@ -109,12 +296,13 @@ public class PlayerBehavior : MonoBehaviour
         if (collision.gameObject.tag == "Collectable")
         {
 
-            if (SuperGameController.lives >= 1)
+            if (SuperGameController.Lives >= 1)
             {
 
-                gameControllerInstance.CollectableScore();
+                GameControllerInstance.RestoreGas();
+                GameControllerInstance.CollectableScore();
                 Destroy(collision.gameObject);
-                GetComponent<AudioSource>().clip = collect;
+                GetComponent<AudioSource>().clip = Collect;
                 GetComponent<AudioSource>().Play();
 
             }
@@ -125,25 +313,39 @@ public class PlayerBehavior : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
         {
 
-            if (SuperGameController.lives >= 1)
+            if (SuperGameController.Lives >= 1)
             {
 
-                if (ramRoutine == null)
+                if (RamRoutine == null)
                 {
 
-                    gameControllerInstance.GetHit();
+                    GameControllerInstance.GetHit();
                     Destroy(collision.gameObject);
-                    GetComponent<AudioSource>().clip = crash;
+                    GetComponent<AudioSource>().clip = Crash;
                     GetComponent<AudioSource>().Play();
+
+                    if (SuperGameController.Lives == 2)
+                    {
+
+                        HitOnce.SetTrigger("IsHit");
+
+                    }
+
+                    if (SuperGameController.Lives == 1)
+                    {
+
+                        HitTwice.SetTrigger("IsHit2");
+
+                    }
 
                 }
 
-                if (ramRoutine != null)
+                if (RamRoutine != null)
                 {
 
-                    gameControllerInstance.EnemyScore();
+                    GameControllerInstance.EnemyScore();
                     Destroy(collision.gameObject);
-                    GetComponent<AudioSource>().clip = kill;
+                    GetComponent<AudioSource>().clip = Kill;
                     GetComponent<AudioSource>().Play();
 
                 }

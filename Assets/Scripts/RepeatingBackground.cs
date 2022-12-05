@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class RepeatingBackground : MonoBehaviour
 {
-    public float scrollSpeed = 7;
-    public const float scrollWidth = 5;
+    public float ScrollSpeed = 7;
+    public const float ScrollWidth = 15.19f;
     void Start()
     {
 
@@ -20,11 +20,11 @@ public class RepeatingBackground : MonoBehaviour
 
         Vector2 pos = transform.position;
 
-        pos.x -= scrollSpeed * Time.deltaTime;
+        pos.x -= ScrollSpeed * Time.deltaTime;
 
         transform.position = pos;
 
-      if (transform.position.x < -scrollWidth)
+      if (transform.position.x < -ScrollWidth)
         {
 
             Offscreen(ref pos);
@@ -38,7 +38,7 @@ public class RepeatingBackground : MonoBehaviour
     public virtual void Offscreen(ref Vector2 pos)
     {
 
-        pos.x += 2 * scrollWidth;
+        pos.x += 2 * ScrollWidth;
 
     }
 

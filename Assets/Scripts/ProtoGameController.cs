@@ -6,18 +6,26 @@ using UnityEngine.SceneManagement;
 
 public class ProtoGameController : MonoBehaviour
 {
-    public GameObject instructions;
-    public GameObject endScreen;
-    public GameObject obstacle;
-    public int randomY;
-    public float currentTimer;
-    public TMP_Text scoreText;
-    public TMP_Text tempTxt;
-    public float timer = 0.0f;
-    public bool timerStart;
-    public bool spawnTime;
-    public SuperGameController instance;
-    public FirstPlayerBehavior firstPlayerBehaviorInstance;
+    public GameObject Instructions;
+    public GameObject EndScreen;
+    public GameObject Obstacle;
+    public GameObject OhNo;
+    public GameObject Player;
+    public GameObject Sweats;
+    public GameObject Scores;
+    public GameObject Honk;
+    public int RandomY;
+    public float CurrentTimer;
+    public TMP_Text ScoreText;
+    public TMP_Text FinalScoreText;
+    public float Timer = 0.0f;
+    public float Timer2 = 0.0f;
+    public bool TimerStart;
+    public bool SpawnTime;
+    public bool SweatsActive;
+    public SuperGameController Instance;
+    public FirstPlayerBehavior FirstPlayerBehaviorInstance;
+    public Animator LevelOneTransition;
     void Start()
     {
         
@@ -33,12 +41,12 @@ public class ProtoGameController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
 
-            if (!timerStart)
+            if (!TimerStart)
             {
 
-                instructions.SetActive(false);
-                timerStart = true;
-                spawnTime = true;
+                Instructions.SetActive(false);
+                TimerStart = true;
+                SpawnTime = true;
                 InvokeRepeating("IncreaseScore", 2, 2);
                 InvokeRepeating("AddToTimer", 1, 1);
 
@@ -49,12 +57,12 @@ public class ProtoGameController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.W))
         {
 
-            if (!timerStart)
+            if (!TimerStart)
             {
 
-                instructions.SetActive(false);
-                timerStart = true;
-                spawnTime = true;
+                Instructions.SetActive(false);
+                TimerStart = true;
+                SpawnTime = true;
                 InvokeRepeating("IncreaseScore", 2, 2);
                 InvokeRepeating("AddToTimer", 1, 1);
 
@@ -63,14 +71,14 @@ public class ProtoGameController : MonoBehaviour
         }
 
 
-        if (spawnTime)
+        if (SpawnTime)
         {
-            currentTimer -= Time.deltaTime;
-            if (currentTimer < 0)
+            CurrentTimer -= Time.deltaTime;
+            if (CurrentTimer < 0)
             {
 
                 ObstacleSpawn();
-                currentTimer = 1;
+                CurrentTimer = 1;
 
             }
 
@@ -81,8 +89,8 @@ public class ProtoGameController : MonoBehaviour
         {
 
             SceneManager.LoadScene(0);
-            SuperGameController.score = 0;
-            SuperGameController.lives = 3;
+            SuperGameController.Score = 0;
+            SuperGameController.Lives = 3;
 
         }
 
@@ -94,59 +102,79 @@ public class ProtoGameController : MonoBehaviour
         }
 
 
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+
+            Honk.SetActive(true);
+
+        }
+
+        if (Input.GetKeyUp(KeyCode.X))
+        {
+
+            Honk.SetActive(false);
+
+        }
+
     }
 
 
     public void ObstacleSpawn()
     {
 
-        Debug.Log("spawn Obstacle");
         Vector3 obsPos = new Vector3();
-        obsPos.x = RepeatingBackground.scrollWidth;
-        randomY = Random.Range(1, 4);
+        obsPos.x = RepeatingBackground.ScrollWidth;
+        RandomY = Random.Range(1, 4);
 
-        if (randomY == 1)
+        if (RandomY == 1)
         {
 
-            obsPos.y = 4.6f;
+            obsPos.y = 4.14f;
 
         }
 
-        if (randomY == 2)
+        if (RandomY == 2)
         {
 
-            obsPos.y = 2.68f;
+            obsPos.y = 2.07f;
 
         }
 
-        if (randomY == 3)
+        if (RandomY == 3)
         {
 
-            obsPos.y = 0.3544002f;
+            obsPos.y = -0.1316612f;
 
         }
 
-        Instantiate(obstacle, obsPos, Quaternion.identity);
+        Instantiate(Obstacle, obsPos, Quaternion.identity);
 
     }
 
     public void GetHit()
     {
-        if (SuperGameController.lives >= 1)
+        if (SuperGameController.Lives >= 1)
         {
 
-            SuperGameController.lives = SuperGameController.lives -= 1;
-            tempTxt.text = SuperGameController.lives.ToString(); //this will be indicated by animations rather than text once sprite work and animations begin
-            if (SuperGameController.lives <= 0)
+            SuperGameController.Lives = SuperGameController.Lives -= 1;
+            if (SuperGameController.Lives <= 0)
             {
 
 
-                timerStart = false;
-                spawnTime = false;
-                timer = 0.0f;
+                TimerStart = false;
+                SpawnTime = false;
+                Timer = 0.0f;
                 GameOver();
 
             }
+
+        }
+
+        if (SuperGameController.Lives < 2)
+        {
+
+            Sweats.SetActive(true);
+            SweatsActive = true;
 
         }
 
@@ -155,7 +183,8 @@ public class ProtoGameController : MonoBehaviour
     public void GameOver()
     {
 
-        endScreen.SetActive(true);
+        EndScreen.SetActive(true);
+        Scores.SetActive(false);
 
 
     }
@@ -163,11 +192,14 @@ public class ProtoGameController : MonoBehaviour
     public void IncreaseScore()
     {
 
-        if (SuperGameController.lives >= 1)
+        if (SuperGameController.Lives >= 1)
         {
 
-            SuperGameController.score += 5;
-            scoreText.text = SuperGameController.score.ToString();
+            SuperGameController.Score += 5;
+            ScoreText.text = SuperGameController.Score.ToString();
+            SuperGameController.FinalScore += 5;
+            FinalScoreText.text = SuperGameController.Score.ToString();
+
 
         }
 
@@ -176,17 +208,43 @@ public class ProtoGameController : MonoBehaviour
     public void AddToTimer()
     {
 
-        timer = timer += 1;
+        Timer = Timer += 1;
 
-        if (timer >= 30)
+        if (Timer >= 60)
         {
-            if (SuperGameController.lives >= 1)
+
+            if (SuperGameController.Lives >= 1)
             {
 
-                SceneManager.LoadScene(2); // transitions can be implimented later on???
+                SpawnTime = false;
+                OhNo.SetActive(true);
+               // AddToTimer2();
+                //play animation 
+                LevelOneTransition.SetTrigger("Transition");
+                if (SweatsActive == false)
+                {
+
+                    Sweats.SetActive(true);
+
+                }
+                
+
 
             }
-                
+
+        }
+
+    }
+
+    public void AddToTimer2()
+    {
+
+        Timer2 = Timer2 += 1;
+
+        if (Timer2 >= 5)
+        {
+
+            SceneManager.LoadScene(2);
 
         }
 

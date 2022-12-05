@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class KILL : MonoBehaviour
 {
-    public Stage2GameController stage2GameControllerInstance;
+    public Stage2GameController Stage2GameControllerInstance;
+    public ProtoGameController ProtoGameControllerInstance;
     void Start()
     {
         
@@ -44,7 +45,14 @@ public class KILL : MonoBehaviour
         {
 
             Destroy(collision.gameObject);
-            stage2GameControllerInstance.wrenchOnscreen = false;
+            Stage2GameControllerInstance.WrenchOnscreen = false;
+
+        }
+
+        if (collision.gameObject.tag == "Alien")
+        {
+
+            Destroy(collision.gameObject);
 
         }
 

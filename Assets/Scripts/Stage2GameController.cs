@@ -3,37 +3,55 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Stage2GameController : MonoBehaviour
 {
 
-    public GameObject endScreen;
-    public GameObject obstacle;
-    public GameObject collectable;
-    public GameObject upgrade;
-    public GameObject player;
-    public GameObject gearText;
-    public GameObject gasInstructions;
-    public int randomY;
-    public float currentTimer;
-    public TMP_Text scoreText;
-    public TMP_Text tempTxt;
-    public float timer = 0.0f;
-    public bool timerStart;
-    public bool spawnTime;
-    public int randomS;
-    public SuperGameController instance;
-    public SecondPlayerController secondPlayerControllerInstance;
-    public bool wrenchOnscreen;
-    public bool gasText = true;
+    public GameObject EndScreen;
+    public GameObject GasBar;
+    public GameObject Obstacle;
+    public GameObject Collectable;
+    public GameObject Upgrade;
+    public GameObject Player;
+    public GameObject GearText;
+    public GameObject GasInstructions;
+    public GameObject CarUpgraded;
+    public GameObject Sweats;
+    public GameObject Yippee;
+    public GameObject Scores;
+    public GameObject Honk;
+    public int RandomY;
+    public float CurrentTimer;
+    public TMP_Text ScoreText;
+    public TMP_Text FinalScoreText;
+    public float Timer = 0.0f;
+    public float Timer2 = 0.0f;
+    public bool TimerStart;
+    public bool SpawnTime;
+    public bool CarUpgradedTrue = false;
+    public int RandomS;
+    public SuperGameController Instance;
+    public SecondPlayerController SecondPlayerControllerInstance;
+    public bool WrenchOnscreen;
+    public bool GasText = true;
+    public bool SweatsActive = false;
+    public Image GasTracker;
     void Start()
     {
-        scoreText.text = SuperGameController.score.ToString();
-        tempTxt.text = SuperGameController.lives.ToString();
-        spawnTime = true;
+        ScoreText.text = SuperGameController.Score.ToString();
+        SpawnTime = true;
         InvokeRepeating("IncreaseScore", 2, 2);
         InvokeRepeating("AddToTimer", 1, 1);
-        wrenchOnscreen = false;
+        WrenchOnscreen = false;
+        InvokeRepeating("LowerGasLevel", 1, 1);
+        if (SuperGameController.Lives < 2)
+        {
+
+            Sweats.SetActive(true);
+            SweatsActive = true;
+
+        }
 
     }
 
@@ -41,14 +59,14 @@ public class Stage2GameController : MonoBehaviour
     {
 
 
-        if (spawnTime)
+        if (SpawnTime)
         {
-            currentTimer -= Time.deltaTime;
-            if (currentTimer < 0)
+            CurrentTimer -= Time.deltaTime;
+            if (CurrentTimer < 0)
             {
 
                 RandomSpawn();
-                currentTimer = 1;
+                CurrentTimer = 1;
 
             }
 
@@ -58,8 +76,8 @@ public class Stage2GameController : MonoBehaviour
         {
 
             SceneManager.LoadScene(0);
-            SuperGameController.score = 0;
-            SuperGameController.lives = 3;
+            SuperGameController.Score = 0;
+            SuperGameController.Lives = 3;
 
         }
 
@@ -70,22 +88,36 @@ public class Stage2GameController : MonoBehaviour
 
         }
 
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+
+            Honk.SetActive(true);
+
+        }
+
+        if (Input.GetKeyUp(KeyCode.X))
+        {
+
+            Honk.SetActive(false);
+
+        }
+
     }
 
     void RandomSpawn()
     {
 
 
-        randomS = Random.Range(0, 10);
+        RandomS = Random.Range(0, 10);
 
-        if (randomS == 0 || randomS == 1 || randomS == 2 || randomS == 3 || randomS == 4 || randomS == 5 || randomS == 6 || randomS == 7)
+        if (RandomS == 0 || RandomS == 1 || RandomS == 2 || RandomS == 3 || RandomS == 4 || RandomS == 5 || RandomS == 6 || RandomS == 7)
         {
 
             ObstacleSpawn();
 
         }
 
-        if (randomS == 8 || randomS == 9)
+        if (RandomS == 8 || RandomS == 9)
         {
 
             CollectableSpawn();
@@ -97,33 +129,32 @@ public class Stage2GameController : MonoBehaviour
     public void ObstacleSpawn()
     {
 
-        Debug.Log("spawn Obstacle");
         Vector3 obsPos = new Vector3();
-        obsPos.x = RepeatingBackground.scrollWidth;
-        randomY = Random.Range(1, 4);
+        obsPos.x = RepeatingBackground.ScrollWidth;
+        RandomY = Random.Range(1, 4);
 
-        if (randomY == 1)
+        if (RandomY == 1)
         {
 
-            obsPos.y = 4.6f;
+            obsPos.y = 4.14f;
 
         }
 
-        if (randomY == 2)
+        if (RandomY == 2)
         {
 
-            obsPos.y = 2.68f;
+            obsPos.y = 2.07f;
 
         }
 
-        if (randomY == 3)
+        if (RandomY == 3)
         {
 
-            obsPos.y = 0.3544002f;
+            obsPos.y = -0.1316612f;
 
         }
 
-        Instantiate(obstacle, obsPos, Quaternion.identity);
+        Instantiate(Obstacle, obsPos, Quaternion.identity);
 
     }
 
@@ -132,49 +163,60 @@ public class Stage2GameController : MonoBehaviour
     {
 
         Vector3 obsPos = new Vector3();
-        obsPos.x = RepeatingBackground.scrollWidth;
-        randomY = Random.Range(1, 4);
+        obsPos.x = RepeatingBackground.ScrollWidth;
+        RandomY = Random.Range(1, 4);
 
-        if (randomY == 1)
+        if (RandomY == 1)
         {
 
-            obsPos.y = 3.98f;
+            obsPos.y = 3.82f;
 
         }
 
-        if (randomY == 2)
+        if (RandomY == 2)
         {
 
-            obsPos.y = 2.12f;
+            obsPos.y = 1.75f;
 
         }
 
-        if (randomY == 3)
+        if (RandomY == 3)
         {
 
-            obsPos.y = -0.1408f;
+            obsPos.y = -0.4358903f;
 
         }
 
-        Instantiate(collectable, obsPos, Quaternion.identity); ;
+        Instantiate(Collectable, obsPos, Quaternion.identity); ;
 
     }
 
     public void GetHit()
     {
-        if (SuperGameController.lives >= 1)
+        if (SuperGameController.Lives >= 1)
         {
 
-            SuperGameController.lives = SuperGameController.lives -= 1;
-            tempTxt.text = SuperGameController.lives.ToString(); //this will be indicated by animations rather than text once sprite work and animations begin
-            if (SuperGameController.lives <= 0)
+            SuperGameController.Lives = SuperGameController.Lives -= 1;
+            if (SuperGameController.Lives <= 0)
             {
 
 
-                timerStart = false;
-                spawnTime = false;
-                timer = 0.0f;
+                TimerStart = false;
+                SpawnTime = false;
+                Timer = 0.0f;
                 GameOver();
+
+            }
+
+        }
+
+        if (SuperGameController.Lives < 2)
+        {
+
+            if (SweatsActive == false)
+            {
+
+                Sweats.SetActive(true);
 
             }
 
@@ -186,21 +228,25 @@ public class Stage2GameController : MonoBehaviour
     public void CollectableScore()
     {
 
-        SuperGameController.score = SuperGameController.score += 10;
-        scoreText.text = SuperGameController.score.ToString();
+        SuperGameController.Score = SuperGameController.Score += 10;
+        ScoreText.text = SuperGameController.Score.ToString();
+        SuperGameController.FinalScore += 10;
+        FinalScoreText.text = SuperGameController.Score.ToString();
 
     }
 
     public void GameOver()
     {
 
-        endScreen.SetActive(true);
+        EndScreen.SetActive(true);
+        Scores.SetActive(false);
+        GasBar.SetActive(false);
 
-        if (gasText == true)
+        if (GasText == true)
         {
 
-            gasInstructions.SetActive(false);
-            gasText = false;
+            GasInstructions.SetActive(false);
+            GasText = false;
 
         }
 
@@ -209,11 +255,13 @@ public class Stage2GameController : MonoBehaviour
 
     public void IncreaseScore()
     {
-        if (SuperGameController.lives >= 1)
+        if (SuperGameController.Lives >= 1)
         {
 
-            SuperGameController.score += 5;
-            scoreText.text = SuperGameController.score.ToString();
+            SuperGameController.Score += 5;
+            ScoreText.text = SuperGameController.Score.ToString();
+            SuperGameController.FinalScore += 5;
+            FinalScoreText.text = SuperGameController.Score.ToString();
 
         }
 
@@ -222,33 +270,41 @@ public class Stage2GameController : MonoBehaviour
     public void AddToTimer()
     {
 
-        timer = timer += 1;
+        Timer = Timer += 1;
 
-        if (timer >= 60)
+        if (Timer >= 60)
         {
 
-            if (gasText == true)
+            if (GasText == true)
             {
 
-                gasInstructions.SetActive(false);
-                gasText = false;
+                GasInstructions.SetActive(false);
+                GasText = false;
 
             }
 
-            if (SuperGameController.lives >= 1)
+            if (SuperGameController.Lives >= 1)
            {
 
-                spawnTime = false;
-                gearText.SetActive(true);
-                Vector3 obsPos = new Vector3();
+                SpawnTime = false;
+                
 
-                if (wrenchOnscreen == false)
+                if (CarUpgradedTrue == false)
                 {
 
-                    obsPos.x = RepeatingBackground.scrollWidth;
-                    obsPos.y = player.transform.position.y;
-                    Instantiate(upgrade, obsPos, Quaternion.identity);
-                    wrenchOnscreen = true;
+                    GearText.SetActive(true);
+
+                }
+
+                Vector3 obsPos = new Vector3();
+
+                if (WrenchOnscreen == false)
+                {
+
+                    obsPos.x = RepeatingBackground.ScrollWidth;
+                    obsPos.y = Player.transform.position.y;
+                    Instantiate(Upgrade, obsPos, Quaternion.identity);
+                    WrenchOnscreen = true;
 
                 }
 
@@ -258,11 +314,61 @@ public class Stage2GameController : MonoBehaviour
 
     }
 
-    public void NextScene()
+
+    public void LowerGasLevel()
     {
 
-        SceneManager.LoadScene(3);
+        if (SuperGameController.Lives >= 1)
+        {
 
-    }   
+            GasTracker.fillAmount = Mathf.Clamp01(SuperGameController.NewGas / SuperGameController.GasMax);
+            SuperGameController.NewGas -= 1;
+
+            if (SuperGameController.NewGas == 0)
+            {
+
+                TimerStart = false;
+                SpawnTime = false;
+                Timer = 0.0f;
+                GameOver();
+
+            }
+
+        }
+
+    }
+
+    public void RestoreGas()
+    {
+
+        GasTracker.fillAmount = Mathf.Clamp01(SuperGameController.NewGas / SuperGameController.GasMax);
+        SuperGameController.NewGas = 100;
+
+    }
+
+    public void UpgradeAquired()
+    {
+
+        GearText.SetActive(false);
+        CarUpgraded.SetActive(true);
+        Yippee.SetActive(true);
+        CarUpgradedTrue = true;
+        InvokeRepeating("AddToTimer2", 1, 1);
+
+    }
+
+    public void AddToTimer2()
+    {
+
+        Timer2 = Timer2 += 1;
+
+        if (Timer2 >= 5)
+        {
+
+            SceneManager.LoadScene(3);
+
+        }
+
+    }
 
 }
