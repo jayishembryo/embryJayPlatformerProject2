@@ -49,7 +49,7 @@ public class KILL : MonoBehaviour
 
         }
 
-        if (collision.gameObject.tag == "Alien")
+        if (collision.gameObject.tag == "Fixt")
         {
 
             Destroy(collision.gameObject);

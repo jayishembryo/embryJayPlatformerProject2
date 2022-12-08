@@ -11,9 +11,11 @@ public class SuperGameController : MonoBehaviour
     public static int Lives = 3;
     public static float GasMax = 100;
     public static float NewGas = 100;
+
     void Start()
     {
-        
+
+        GetComponent<AudioSource>().Play();
         if (Instance != null)
         {
 
@@ -35,7 +37,12 @@ public class SuperGameController : MonoBehaviour
     void Update()
     {
 
-        
+        if (Lives <= 0)
+        {
+
+            GetComponent<AudioSource>().Pause();
+
+        }
 
     }
 

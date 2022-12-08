@@ -9,16 +9,10 @@ public class FirstPlayerBehavior : MonoBehaviour
     public ProtoGameController ProtoGameControllerInstance;
     public AudioClip Crash;
     public AudioClip Honk;
-    public Animator HitOnce;
-    public Animator DriveDamaged;
-    public Animator HitTwice;
-    public Animator DriveDamaged2;
-    public Animator Jumping;
-    public Animator Jumping2;
-    public Animator Jumping3;
-    public Animator Return;
-    public Animator Return2;
-    public Animator Return3;
+    public AudioClip Health;
+    public Animator CarAnimator;
+    //  public Animator Restore1;
+    //  public Animator Restore2;
 
     void Start()
     {
@@ -37,27 +31,6 @@ public class FirstPlayerBehavior : MonoBehaviour
 
             Rb2d.AddForce(Vector2.up * Jumpforce, ForceMode2D.Impulse);
 
-            if (SuperGameController.Lives == 3)
-            {
-
-                Jumping.SetTrigger("Woohoo");
-
-            }
-
-            if (SuperGameController.Lives == 2)
-            {
-
-                Jumping2.SetTrigger("Woohoo2");
-
-            }
-
-            if (SuperGameController.Lives == 1)
-            {
-
-                Jumping2.SetTrigger("Woohoo3");
-
-            }
-
         }
 
         if (Input.GetKeyDown(KeyCode.W))
@@ -65,92 +38,19 @@ public class FirstPlayerBehavior : MonoBehaviour
 
             Rb2d.AddForce(Vector2.up * Jumpforce, ForceMode2D.Impulse);
 
-            if (SuperGameController.Lives == 3)
-            {
-
-                Jumping.SetTrigger("Woohoo");
-
-            }
-
-            if (SuperGameController.Lives == 2)
-            {
-
-                Jumping2.SetTrigger("Woohoo2");
-
-            }
-
-            if (SuperGameController.Lives == 1)
-            {
-
-                Jumping2.SetTrigger("Woohoo3");
-
-            }
-
         }
 
-        if (Input.GetKeyUp(KeyCode.UpArrow))
+        if (SuperGameController.Lives == 2)
         {
 
-            if (SuperGameController.Lives == 3)
-            {
-
-                Return.SetTrigger("NoWoohoo");
-
-            }
-
-            if (SuperGameController.Lives == 2)
-            {
-
-                Return2.SetTrigger("NoWoohoo2");
-
-            }
-
-            if (SuperGameController.Lives == 1)
-            {
-
-                Return3.SetTrigger("NoWoohoo3");
-
-            }
-
-        }
-
-        if (Input.GetKeyUp(KeyCode.W))
-        {
-
-            if (SuperGameController.Lives == 3)
-            {
-
-                Return.SetTrigger("NoWoohoo");
-
-            }
-
-            if (SuperGameController.Lives == 2)
-            {
-
-                Return2.SetTrigger("NoWoohoo2");
-
-            }
-
-            if (SuperGameController.Lives == 1)
-            {
-
-                Return3.SetTrigger("NoWoohoo3");
-
-            }
-
-        }
-
-        if (SuperGameController.Lives ==2)
-        {
-
-            DriveDamaged.SetInteger("Lives2", SuperGameController.Lives);
+            CarAnimator.SetInteger("Lives2", SuperGameController.Lives);
 
         }
 
         if (SuperGameController.Lives == 1)
         {
 
-            DriveDamaged2.SetInteger("Lives1", SuperGameController.Lives);
+            CarAnimator.SetInteger("Lives1", SuperGameController.Lives);
 
         }
 
@@ -178,25 +78,40 @@ public class FirstPlayerBehavior : MonoBehaviour
                 Destroy(collision.gameObject);
                 GetComponent<AudioSource>().clip = Crash;
                 GetComponent<AudioSource>().Play();
-
-                if (SuperGameController.Lives == 2)
-                {
-
-                    HitOnce.SetTrigger("IsHit");
-
-                }
-
-                if (SuperGameController.Lives == 1)
-                {
-
-                    HitTwice.SetTrigger("IsHit2");
-
-                }
+                CarAnimator.SetInteger("Lives2", SuperGameController.Lives);
 
 
             }
 
         }
+
+        if (collision.gameObject.tag == "Fixt")
+        {
+
+            Destroy(collision.gameObject);
+            GetComponent<AudioSource>().clip = Health;
+            GetComponent<AudioSource>().Play();
+
+            if (SuperGameController.Lives < 3)
+            {
+
+                SuperGameController.Lives += 1;
+                CarAnimator.SetInteger("Lives2", SuperGameController.Lives);
+
+                if (ProtoGameControllerInstance.SweatsActive == true)
+                {
+
+                    ProtoGameControllerInstance.Sweats.SetActive(false);
+                    ProtoGameControllerInstance.SweatsActive = false;
+
+                }
+
+            }
+        }
     }
 
+
+
 }
+
+

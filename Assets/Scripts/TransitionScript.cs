@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class TransitionScript : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public int Scene;
     void Start()
     {
         
@@ -20,14 +20,7 @@ public class TransitionScript : MonoBehaviour
     public void NextScene()
     {
 
-        SceneManager.LoadScene(2);
-
-    }
-
-    public void NextScene2()
-    {
-
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene(Scene);
 
     }
 }

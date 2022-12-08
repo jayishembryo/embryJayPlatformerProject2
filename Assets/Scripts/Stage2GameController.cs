@@ -21,6 +21,7 @@ public class Stage2GameController : MonoBehaviour
     public GameObject Yippee;
     public GameObject Scores;
     public GameObject Honk;
+    public GameObject Fixt;
     public int RandomY;
     public float CurrentTimer;
     public TMP_Text ScoreText;
@@ -65,8 +66,21 @@ public class Stage2GameController : MonoBehaviour
             if (CurrentTimer < 0)
             {
 
-                RandomSpawn();
                 CurrentTimer = 1;
+
+                if (Timer != 30)
+                {
+
+                    RandomSpawn();
+
+                }
+
+                if (Timer == 30)
+                {
+
+                    FixtSpawn();
+
+                }
 
             }
 
@@ -188,6 +202,39 @@ public class Stage2GameController : MonoBehaviour
         }
 
         Instantiate(Collectable, obsPos, Quaternion.identity); ;
+
+    }
+
+    public void FixtSpawn()
+    {
+
+        Vector3 obsPos = new Vector3();
+        obsPos.x = RepeatingBackground.ScrollWidth;
+        RandomY = Random.Range(0, 3);
+
+        if (RandomY == 0)
+        {
+
+            obsPos.y = 2.76f;
+
+        }
+
+        if (RandomY == 1)
+        {
+
+            obsPos.y = 5.09f;
+
+        }
+
+        if (RandomY == 2)
+        {
+
+
+            obsPos.y = 6.98f;
+
+        }
+
+        Instantiate(Fixt, obsPos, Quaternion.identity);
 
     }
 
@@ -353,7 +400,7 @@ public class Stage2GameController : MonoBehaviour
         CarUpgraded.SetActive(true);
         Yippee.SetActive(true);
         CarUpgradedTrue = true;
-        InvokeRepeating("AddToTimer2", 1, 1);
+        //InvokeRepeating("AddToTimer2", 1, 1);
 
     }
 

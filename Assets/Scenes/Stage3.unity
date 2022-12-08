@@ -1575,22 +1575,8 @@ MonoBehaviour:
   Collect: {fileID: 8300000, guid: 16482c7a8331f0048a240cba923a0f16, type: 3}
   Kill: {fileID: 8300000, guid: f55396703ab78c64db4a5eb560b530d1, type: 3}
   Honk: {fileID: 8300000, guid: d4626456fe662094caabc53a8db6f7d9, type: 3}
-  HitOnce: {fileID: 1217619370}
-  DriveDamaged: {fileID: 1217619370}
-  HitTwice: {fileID: 1217619370}
-  DriveDamaged2: {fileID: 1217619370}
-  Jumping: {fileID: 1217619370}
-  Jumping2: {fileID: 1217619370}
-  Jumping3: {fileID: 1217619370}
-  Return: {fileID: 1217619370}
-  Return2: {fileID: 1217619370}
-  Return3: {fileID: 1217619370}
-  Dash1: {fileID: 1217619370}
-  Dash2: {fileID: 1217619370}
-  Dash3: {fileID: 1217619370}
-  NoDash1: {fileID: 1217619370}
-  NoDash2: {fileID: 1217619370}
-  NoDash3: {fileID: 1217619370}
+  Health: {fileID: 0}
+  CarAnimator: {fileID: 1217619370}
 --- !u!1 &1329588104
 GameObject:
   m_ObjectHideFlags: 0
@@ -2595,11 +2581,13 @@ MonoBehaviour:
   Sweats: {fileID: 735254178}
   Scores: {fileID: 2020110853}
   Honk: {fileID: 411415375}
+  Fixt: {fileID: 1383248226225496229, guid: 55fe62b4079b85a48b39ffd4ad0a2058, type: 3}
   RandomY: 0
   CurrentTimer: 0
   ScoreText: {fileID: 435254367}
   FinalScoreText: {fileID: 527639470}
   Timer: 0
+  FixtTimer: 30
   TimerStart: 0
   SpawnTime: 0
   RamText: 1

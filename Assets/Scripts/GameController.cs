@@ -16,11 +16,13 @@ public class GameController : MonoBehaviour
     public GameObject Sweats;
     public GameObject Scores;
     public GameObject Honk;
+    public GameObject Fixt;
     public int RandomY;
     public float CurrentTimer;
     public TMP_Text ScoreText;
     public TMP_Text FinalScoreText;
     public float Timer = 0.0f;
+    public float FixtTimer = 30.0f;
     public bool TimerStart;
     public bool SpawnTime;
     public bool RamText = true;
@@ -65,8 +67,29 @@ public class GameController : MonoBehaviour
             if (CurrentTimer < 0)
             {
 
-                RandomSpawn();
                 CurrentTimer = 1;
+
+                if (FixtTimer > 0)
+                {
+
+                    RandomSpawn();
+
+                }
+
+            }
+
+        }
+
+        if (TimerStart == true)
+        {
+
+            FixtTimer -= Time.deltaTime;
+
+            if (FixtTimer < 0)
+            {
+                FixtSpawn();
+
+                FixtTimer = 30.0f;
 
             }
 
@@ -241,6 +264,39 @@ public class GameController : MonoBehaviour
         Instantiate(Enemy, obsPos, Quaternion.identity);
     }
 
+    public void FixtSpawn()
+    {
+
+        Vector3 obsPos = new Vector3();
+        obsPos.x = RepeatingBackground.ScrollWidth;
+        RandomY = Random.Range(0, 3);
+
+        if (RandomY == 0)
+        {
+
+            obsPos.y = 2.76f;
+
+        }
+
+        if (RandomY == 1)
+        {
+
+            obsPos.y = 5.09f;
+
+        }
+
+        if (RandomY == 2)
+        {
+
+
+            obsPos.y = 6.98f;
+
+        }
+
+        Instantiate(Fixt, obsPos, Quaternion.identity);
+
+    }
+
 
 
     public void GetHit()
@@ -360,4 +416,5 @@ public class GameController : MonoBehaviour
         SuperGameController.NewGas = 100;
 
     }
+
 }

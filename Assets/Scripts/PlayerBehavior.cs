@@ -14,22 +14,8 @@ public class PlayerBehavior : MonoBehaviour
     public AudioClip Collect;
     public AudioClip Kill;
     public AudioClip Honk;
-    public Animator HitOnce;
-    public Animator DriveDamaged;
-    public Animator HitTwice;
-    public Animator DriveDamaged2;
-    public Animator Jumping;
-    public Animator Jumping2;
-    public Animator Jumping3;
-    public Animator Return;
-    public Animator Return2;
-    public Animator Return3;
-    public Animator Dash1;
-    public Animator Dash2;
-    public Animator Dash3;
-    public Animator NoDash1;
-    public Animator NoDash2;
-    public Animator NoDash3;
+    public AudioClip Health;
+    public Animator CarAnimator;
     void Start()
     {
 
@@ -46,54 +32,12 @@ public class PlayerBehavior : MonoBehaviour
 
             Rb2d.AddForce(Vector2.up * Jumpforce, ForceMode2D.Impulse);
 
-            if (SuperGameController.Lives == 3)
-            {
-
-                Jumping.SetTrigger("Woohoo");
-
-            }
-
-            if (SuperGameController.Lives == 2)
-            {
-
-                Jumping2.SetTrigger("Woohoo2");
-
-            }
-
-            if (SuperGameController.Lives == 1)
-            {
-
-                Jumping2.SetTrigger("Woohoo3");
-
-            }
-
         }
 
         if (Input.GetKeyDown(KeyCode.W))
         {
 
             Rb2d.AddForce(Vector2.up * Jumpforce, ForceMode2D.Impulse);
-
-            if (SuperGameController.Lives == 3)
-            {
-
-                Jumping.SetTrigger("Woohoo");
-
-            }
-
-            if (SuperGameController.Lives == 2)
-            {
-
-                Jumping2.SetTrigger("Woohoo2");
-
-            }
-
-            if (SuperGameController.Lives == 1)
-            {
-
-                Jumping2.SetTrigger("Woohoo3");
-
-            }
 
         }
 
@@ -106,93 +50,19 @@ public class PlayerBehavior : MonoBehaviour
 
             }
 
-            if (SuperGameController.Lives == 3)
-            {
-
-                Dash1.SetTrigger("Dash1");
-
-            }
-
-            if (SuperGameController.Lives == 2)
-            {
-
-                Dash2.SetTrigger("Dash2");
-
-            }
-
-            if (SuperGameController.Lives == 1)
-            {
-
-                Dash3.SetTrigger("Dash3");
-
-            }
-
-        }
-
-
-        if (Input.GetKeyUp(KeyCode.UpArrow))
-        {
-
-            if (SuperGameController.Lives == 3)
-            {
-
-                Return.SetTrigger("NoWoohoo");
-
-            }
-
-            if (SuperGameController.Lives == 2)
-            {
-
-                Return2.SetTrigger("NoWoohoo2");
-
-            }
-
-            if (SuperGameController.Lives == 1)
-            {
-
-                Return3.SetTrigger("NoWoohoo3");
-
-            }
-
-        }
-
-        if (Input.GetKeyUp(KeyCode.W))
-        {
-
-            if (SuperGameController.Lives == 3)
-            {
-
-                Return.SetTrigger("NoWoohoo");
-
-            }
-
-            if (SuperGameController.Lives == 2)
-            {
-
-                Return2.SetTrigger("NoWoohoo2");
-
-            }
-
-            if (SuperGameController.Lives == 1)
-            {
-
-                Return3.SetTrigger("NoWoohoo3");
-
-            }
-
         }
 
         if (SuperGameController.Lives == 2)
         {
 
-            DriveDamaged.SetInteger("Lives2", SuperGameController.Lives);
+            CarAnimator.SetInteger("Lives2", SuperGameController.Lives);
 
         }
 
         if (SuperGameController.Lives == 1)
         {
 
-            DriveDamaged2.SetInteger("Lives1", SuperGameController.Lives);
+            CarAnimator.SetInteger("Lives1", SuperGameController.Lives);
 
         }
 
@@ -207,14 +77,38 @@ public class PlayerBehavior : MonoBehaviour
     }
     public IEnumerator RamForward()
     {
-        float finalPosition = transform.position.x + 4;
-        float goalTime = Time.time + 2;
-        float xPos = transform.position.x;
-        while (Time.time < goalTime)
+
+        if (SuperGameController.Lives == 3)
         {
 
-            float percentage = Time.time / goalTime;
-            xPos = Mathf.Lerp(xPos, finalPosition, percentage);
+            CarAnimator.SetTrigger("Dash1");
+
+        }
+
+        if (SuperGameController.Lives == 2)
+        {
+
+            CarAnimator.SetTrigger("Dash2");
+
+        }
+
+        if (SuperGameController.Lives == 1)
+        {
+
+            CarAnimator.SetTrigger("Dash3");
+
+        }
+
+        float finalPosition = transform.position.x + 4;
+        float startPosition = transform.position.x;
+
+        var dashTimer = 0.5f;
+        var dashTimerMax = dashTimer; 
+
+        while (dashTimer>0)
+        {
+            dashTimer -= Time.deltaTime;
+            var xPos = Mathf.Lerp(startPosition, finalPosition, 1- (dashTimer/dashTimerMax));
             transform.position = new Vector2(xPos, transform.position.y);
             yield return null; 
 
@@ -229,32 +123,36 @@ public class PlayerBehavior : MonoBehaviour
         if (SuperGameController.Lives == 3)
         {
 
-            NoDash1.SetTrigger("NoDash1");
+            CarAnimator.SetTrigger("NoDash1");
 
         }
 
         if (SuperGameController.Lives == 2)
         {
 
-            NoDash2.SetTrigger("NoDash2");
+            CarAnimator.SetTrigger("NoDash2");
 
         }
 
         if (SuperGameController.Lives == 1)
         {
 
-            NoDash3.SetTrigger("NoDash3");
+            CarAnimator.SetTrigger("NoDash3");
 
         }
+
         RamRoutine = null;
         float finalPosition = transform.position.x - 4;
-        float goalTime = Time.time + 1;
-        float xPos = transform.position.x;
-        while (Time.time < goalTime)
+        float startPosition = transform.position.x;
+
+        var dashTimer = 1f;
+        var dashTimerMax = dashTimer;
+
+        while (dashTimer > 0)
         {
 
-            float percentage = Time.time / goalTime;
-            xPos = Mathf.Lerp(xPos, finalPosition, percentage);
+            dashTimer -= Time.deltaTime;
+            var xPos = Mathf.Lerp(startPosition, finalPosition, 1 - (dashTimer / dashTimerMax));
             transform.position = new Vector2(xPos, transform.position.y);
             yield return null;
 
@@ -274,20 +172,7 @@ public class PlayerBehavior : MonoBehaviour
                 Destroy(collision.gameObject);
                 GetComponent<AudioSource>().clip = Crash;
                 GetComponent<AudioSource>().Play();
-
-                if (SuperGameController.Lives == 2)
-                {
-
-                    HitOnce.SetTrigger("IsHit");
-
-                }
-
-                if (SuperGameController.Lives == 1)
-                {
-
-                    HitTwice.SetTrigger("IsHit2");
-
-                }
+                CarAnimator.SetInteger("Lives2", SuperGameController.Lives);
 
             }
 
@@ -324,20 +209,6 @@ public class PlayerBehavior : MonoBehaviour
                     GetComponent<AudioSource>().clip = Crash;
                     GetComponent<AudioSource>().Play();
 
-                    if (SuperGameController.Lives == 2)
-                    {
-
-                        HitOnce.SetTrigger("IsHit");
-
-                    }
-
-                    if (SuperGameController.Lives == 1)
-                    {
-
-                        HitTwice.SetTrigger("IsHit2");
-
-                    }
-
                 }
 
                 if (RamRoutine != null)
@@ -352,6 +223,30 @@ public class PlayerBehavior : MonoBehaviour
 
             }
             
+
+        }
+
+        if (collision.gameObject.tag == "Fixt")
+        {
+
+            Destroy(collision.gameObject);
+
+
+            if (SuperGameController.Lives < 3)
+            {
+
+                SuperGameController.Lives += 1;
+                CarAnimator.SetInteger("Lives2", SuperGameController.Lives);
+
+                if (GameControllerInstance.SweatsActive == true)
+                {
+
+                    GameControllerInstance.Sweats.SetActive(false);
+
+                }
+
+            }
+
 
         }
 

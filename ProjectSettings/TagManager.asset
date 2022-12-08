@@ -10,6 +10,7 @@ TagManager:
   - Killbox
   - Upgrade
   - Alien
+  - Fixt
   layers:
   - Default
   - TransparentFX
