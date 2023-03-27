@@ -400,7 +400,7 @@ public class Stage2GameController : MonoBehaviour
         CarUpgraded.SetActive(true);
         Yippee.SetActive(true);
         CarUpgradedTrue = true;
-        //InvokeRepeating("AddToTimer2", 1, 1);
+        InvokeRepeating("AddToTimer2", 1, 1);
 
     }
 

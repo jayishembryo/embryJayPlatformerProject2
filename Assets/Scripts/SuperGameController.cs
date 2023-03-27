@@ -16,7 +16,7 @@ public class SuperGameController : MonoBehaviour
     {
 
         GetComponent<AudioSource>().Play();
-        if (Instance != null)
+        if (Instance == null)
         {
 
             Instance = this;
@@ -25,7 +25,7 @@ public class SuperGameController : MonoBehaviour
         else
         {
 
-          //  Destroy(gameObject);
+            Destroy(gameObject);
 
         }
         DontDestroyOnLoad(gameObject);
